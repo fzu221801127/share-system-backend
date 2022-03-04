@@ -3,15 +3,17 @@ package com.example.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.entity.Post;
-import com.example.entity.Student;
 import com.example.service.PostService;
-import com.example.service.StudentService;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import org.springframework.stereotype.Controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -73,8 +75,15 @@ public class PostController {
      * @return
      */
     @GetMapping("")
-    public List<Post> postList(){
-        return this.postService.list();
+    public  Object postPageList(@RequestParam(value = "currentPage", defaultValue = "1") int currentPage, @RequestParam(value = "pagesize", defaultValue = "10") int pagesize)
+    {
+        //使用分页插件,核心代码就这一行
+        Page<Object> p = PageHelper.startPage(currentPage, pagesize);//最重要的一步
+        List<Post> allGoods = this.postService.list();//调用查询方法一定要放在startPage后面，不然分页不了
+        PageInfo<Post> pageInfo = new PageInfo<Post>(allGoods,pagesize);
+        Map<String,Object> data=new HashMap<>();
+        data.put("page",pageInfo);
+        return data;
     }
 
     /**

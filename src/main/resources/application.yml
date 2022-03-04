@@ -10,3 +10,9 @@ mybatis-plus:
   mapper-locations: classpath:com/example/mapper/xml/*.xml
 server:
   port: 8181
+# 分页配置，针对mysql
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
