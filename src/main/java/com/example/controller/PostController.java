@@ -77,7 +77,7 @@ public class PostController {
     @GetMapping("")
     public  Object postPageList(@RequestParam(value = "currentPage", defaultValue = "1") int currentPage, @RequestParam(value = "pagesize", defaultValue = "10") int pagesize)
     {
-        //使用分页插件,核心代码就这一行
+        //使用分页插件 教程地址:https://www.cnblogs.com/dongzi1997/p/15599500.html
         Page<Object> p = PageHelper.startPage(currentPage, pagesize);//最重要的一步
         List<Post> allGoods = this.postService.list();//调用查询方法一定要放在startPage后面，不然分页不了
         PageInfo<Post> pageInfo = new PageInfo<Post>(allGoods,pagesize);
