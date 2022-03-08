@@ -67,6 +67,18 @@ public class PostController {
     }
 
     /**
+     * 描述:举报文章(其实直接用上面update方法，前端post的state属性改为“被举报”再调用update效果也一样)
+     * 参数:文章对象
+     * 返回值:成功为true,失败为false
+     * @author zhuangweilong
+     * @since 2022-03-04
+     */
+    @PutMapping("/tipOffPost")
+    public boolean tipOffPost(@RequestBody Post post) {
+        return this.postService.tipOffPost(post);
+    }
+
+    /**
      * 描述:获取全部文章列表
      * 参数:无
      * 返回值:文章列表
