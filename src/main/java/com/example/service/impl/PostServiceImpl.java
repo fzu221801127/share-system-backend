@@ -23,7 +23,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 
     @Override
     public boolean tipOffPost(Post post) {
-        post.setState("被举报");
+        post.setState("暂时下架");
         int count = this.postMapper.updateById(post);
         boolean success = count != 0;
         return success;
