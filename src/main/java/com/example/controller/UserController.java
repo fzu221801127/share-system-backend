@@ -22,7 +22,7 @@ import java.util.List;
  * @since 2022-03-08
  */
 @RestController
-@RequestMapping("/v1/user")
+@RequestMapping("/v1/users")
 public class UserController {
 
     @Autowired
@@ -48,7 +48,7 @@ public class UserController {
      * @since
      */
     @DeleteMapping("/id")
-    public boolean deleteUserById(Integer id) {
+    public boolean deleteUserById(String id) {
         return this.userService.removeById(id);
     }
 
