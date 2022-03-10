@@ -4,6 +4,7 @@ package com.example.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.entity.Student;
 import com.example.entity.User;
+import com.example.pojo.query.UserQuery;
 import com.example.service.PostService;
 import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,18 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    /**
+     * 描述:登录
+     * 参数:账号、密码
+     * 返回值:用户对象
+     * @author zhuangweilong
+     * @since
+     */
+    @PostMapping("userLogin")
+    public UserQuery userLogin (@RequestBody User user) {
+        return this.userService.userLogin(user);
+    }
 
     /**
      * 描述:插入新的用户对象

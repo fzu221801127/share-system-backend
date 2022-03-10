@@ -2,6 +2,7 @@ package com.example.service;
 
 import com.example.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.pojo.query.UserQuery;
 
 /**
  * <p>
@@ -12,5 +13,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2022-03-08
  */
 public interface UserService extends IService<User> {
+
+    UserQuery userLogin(User user);
 
 }
