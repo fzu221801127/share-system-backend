@@ -37,6 +37,10 @@ public class UserController {
      */
     @PostMapping("")
     public boolean insertUser(@RequestBody User user) {
+        user.setPermission("user");
+        user.setHeadPortraitUrl("图片链接");
+        user.setState("未封禁");
+        user.setCollectione("");
         return  this.userService.save(user);
     }
 
@@ -73,7 +77,7 @@ public class UserController {
      * @return
      */
     @GetMapping("")
-    public List<User> userList(){
+    public List<User> getUserList(){
         return this.userService.list();
     }
 
@@ -90,6 +94,35 @@ public class UserController {
         queryWrapper.and(
                 wrapper ->
                         wrapper.like("nickname", user.getNickname())
+        );
+        return  this.userService.list(queryWrapper);
+    }
+
+    /**
+     * 描述:通过id搜索用户
+     * 参数:用户id
+     * 返回值:用户
+     * @author zhuangweilong
+     * @since
+     */
+    @GetMapping("/id")
+    public User getUserById (User user) {
+        return  this.userService.getById(user.getId());
+    }
+
+    /**
+     * 描述:通过id模糊搜索用户
+     * 参数:用户id
+     * 返回值:用户
+     * @author zhuangweilong
+     * @since
+     */
+    @GetMapping("/idshearch")
+    public List<User> shearchUserById (User user) {
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.and(
+                wrapper ->
+                        wrapper.like("id", user.getId())
         );
         return  this.userService.list(queryWrapper);
     }
