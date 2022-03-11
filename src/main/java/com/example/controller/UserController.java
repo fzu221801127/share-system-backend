@@ -30,8 +30,8 @@ public class UserController {
     private UserService userService;
 
     /**
-     * 描述:登录
-     * 参数:账号、密码
+     * 描述:普通登录
+     * 参数:User
      * 返回值:用户对象
      * @author zhuangweilong
      * @since
@@ -40,6 +40,19 @@ public class UserController {
     public UserQuery userLogin (@RequestBody User user) {
         return this.userService.userLogin(user);
     }
+
+    /**
+     * 描述:管理员登录
+     * 参数:User
+     * 返回值:用户对象
+     * @author zhuangweilong
+     * @since
+     */
+    @PostMapping("adminLogin")
+    public UserQuery adminLogin (@RequestBody User user) {
+        return this.userService.adminLogin(user);
+    }
+
 
     /**
      * 描述:插入新的用户对象

@@ -29,23 +29,63 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         UserQuery userQuery = new UserQuery();
         userMessage = userMapper.selectById(user.getId());
         if (userMessage == null) {
-            userQuery.setMessage("Can not found this user");
+            userQuery.setMessage("该用户不存在");
             return userQuery;
         }
         String permission = "user";
-        if (!permission.equals(userMessage.getPermission())) {
-            userQuery.setMessage("Can not found this user");
+        String permission2 = "admin";
+        if ((!permission.equals(userMessage.getPermission()))&&(!permission2.equals(userMessage.getPermission()))) {
+            userQuery.setMessage("该用户不存在");
             userQuery.setId(userMessage.getId());
             return userQuery;
         }
         String state = "封禁";
         if (state.equals(userMessage.getState())) {
-            userQuery.setMessage("This account has been banned");
+            userQuery.setMessage("该账号已被封禁");
             userQuery.setId(userMessage.getId());
             return userQuery;
         }
         if (!userMessage.getPassword().equals(user.getPassword())) {
-            userQuery.setMessage("Wrong password");
+            userQuery.setMessage("密码错误");
+            userQuery.setId(userMessage.getId());
+            return userQuery;
+        }
+        userQuery.setMessage("Success");
+        userQuery.setId(userMessage.getId());
+        userQuery.setNickname(userMessage.getNickname());
+        userQuery.setBirthday(userMessage.getBirthday());
+        userQuery.setSignature(userMessage.getSignature());
+        userQuery.setPhoneNumber(userMessage.getPhoneNumber());
+        userQuery.setCollectione(userMessage.getCollectione());
+        userQuery.setState(userMessage.getState());
+        userQuery.setHeadPortraitUrl(userMessage.getHeadPortraitUrl());
+        userQuery.setPermission(userMessage.getPermission());
+        return userQuery;
+    }
+
+    @Override
+    public UserQuery adminLogin(User user) {
+        User userMessage;
+        UserQuery userQuery = new UserQuery();
+        userMessage = userMapper.selectById(user.getId());
+        if (userMessage == null) {
+            userQuery.setMessage("该用户不存在");
+            return userQuery;
+        }
+        String permission = "admin";
+        if (!permission.equals(userMessage.getPermission())) {
+            userQuery.setMessage("该用户不存在");
+            userQuery.setId(userMessage.getId());
+            return userQuery;
+        }
+        String state = "封禁";
+        if (state.equals(userMessage.getState())) {
+            userQuery.setMessage("该账号已被封禁");
+            userQuery.setId(userMessage.getId());
+            return userQuery;
+        }
+        if (!userMessage.getPassword().equals(user.getPassword())) {
+            userQuery.setMessage("密码错误");
             userQuery.setId(userMessage.getId());
             return userQuery;
         }
