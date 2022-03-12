@@ -18,4 +18,8 @@ import java.util.List;
 public interface CollectionService extends IService<Collection> {
 
     List<Post> getCollectionPostListByUserId(User user);
+
+    boolean userCollectPost(Collection collection);
+
+    boolean userUnCollectPost(Collection collection);
 }

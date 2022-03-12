@@ -1,5 +1,6 @@
 package com.example.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.entity.Collection;
 import com.example.entity.Post;
@@ -12,7 +13,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -46,5 +49,37 @@ public class CollectionServiceImpl extends ServiceImpl<CollectionMapper, Collect
         } else {
             return null;
         }
+    }
+
+    @Override
+    public boolean userCollectPost(Collection collection) {
+        if (collection.getPostId() == null || collection.getUserId() == null) {
+            return false;
+        }
+        Map<String, Object> columnMap = new HashMap<>();
+        columnMap.put("user_id",collection.getUserId());
+        columnMap.put("post_id",collection.getPostId());
+        List<Collection> collectionList = collectionMapper.selectByMap(columnMap);
+        if (collectionList.size() > 0) {
+            return false;
+        }
+        int count =  collectionMapper.insert(collection);
+        if (count >= 1) { return true; }
+        else { return false; }
+    }
+
+    @Override
+    public boolean userUnCollectPost(Collection collection) {
+        if (collection.getPostId() == null || collection.getUserId() == null) {
+            return false;
+        }
+        Map<String, Object> columnMap = new HashMap<>();
+        columnMap.put("user_id",collection.getUserId());
+        columnMap.put("post_id",collection.getPostId());
+        int count = collectionMapper.deleteByMap(columnMap);
+        if (count >= 0) {
+            return true;
+        }
+        return false;
     }
 }
