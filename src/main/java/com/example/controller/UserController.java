@@ -137,6 +137,18 @@ public class UserController {
     }
 
     /**
+     * 描述:通过id获取用户信息(不包含密码)
+     * 参数:用户id
+     * 返回值:用户
+     * @author zhuangweilong
+     * @since
+     */
+    @GetMapping("/info/id")
+    public UserQuery getUserInfoById (User user) {
+        return  this.userService.getUserInfoById(user);
+    }
+
+    /**
      * 描述:通过id模糊搜索用户
      * 参数:用户id
      * 返回值:用户
