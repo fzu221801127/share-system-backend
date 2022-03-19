@@ -174,54 +174,64 @@ public class PostController {
     }
 
     @GetMapping("/spider")
-    public boolean spider (Integer type,Integer firstPage,Integer lastPage) throws IOException {
+    public String spider (Integer type,Integer firstPage,Integer lastPage) throws IOException {
+        Integer count = 0;
         String baseurl = "https://www.ygdy8.net";
         for (int i = firstPage; i<=lastPage; i++) {
             String number = String.valueOf(i);
             String url = "https://www.ygdy8.net/html/gndy/dyzz/list_"+type.toString()+"_"+number+".html";
-            spiderOnePage(baseurl, url);
+            count += spiderOnePage(baseurl, url);
         }
-        return true;
+        String message = "成功爬取"+count+"条信息";
+        return message;
     }
 
     @GetMapping("/spider/one")
-    public boolean spiderOnePage(String baseurl, String url) throws IOException {
+    public Integer spiderOnePage(String baseurl, String url) throws IOException {
+        Integer count = 0;
         String output = "";
         String content = HttpClientDownPage.sendGet(url);
-        Document doc = Jsoup.parse(content);
-        //#header > div > div.bd2 > div.bd3 > div.bd3r > div.co_area2 > div.co_content8 > ul > table:nth-child(1) > tbody > tr:nth-child(2) > td:nth-child(2) > b > a
-        //#header > div > div.bd2 > div.bd3 > div.bd3r > div.co_area2 > div.co_content8 > ul > table:nth-child(2) > tbody > tr:nth-child(2) > td:nth-child(2) > b > a
-        //#header > div > div.bd2 > div.bd3 > div.bd3r > div.co_area2 > div.co_content8 > ul > table:nth-child(25) > tbody > tr:nth-child(2) > td:nth-child(2) > b > a
-        //#header > div > div.bd2 > div.bd3 > div.bd3r > div.co_area2 > div.co_content8 > ul > table:nth-child(2) > tbody > tr:nth-child(2) > td:nth-child(2) > b > a
-        for (int i = 1; i<=25; i++) {
-            String number = String.valueOf(i);
-            Elements elements = doc.select("#header")
-                    .select("div")
-                    .select("div.bd2")
-                    .select("div.bd3")
-                    .select("div.bd3r")
-                    .select("div.co_area2")
-                    .select("div.co_content8")
-                    .select("ul")
-                    .select("table:nth-child("+number+")")
-                    .select("tbody")
-                    .select("tr:nth-child(2)")
-                    .select("td:nth-child(2)")
-                    .select("b")
-                    .select("a");
-            String link = elements.attr("href");
-            String str = elements.toString();
-            output = output + str + "\n";
-            spiderDetail(baseurl+link,"src/detail.html");
+        if (content != null) {
+            Document doc = Jsoup.parse(content);
+            //#header > div > div.bd2 > div.bd3 > div.bd3r > div.co_area2 > div.co_content8 > ul > table:nth-child(1) > tbody > tr:nth-child(2) > td:nth-child(2) > b > a
+            //#header > div > div.bd2 > div.bd3 > div.bd3r > div.co_area2 > div.co_content8 > ul > table:nth-child(2) > tbody > tr:nth-child(2) > td:nth-child(2) > b > a
+            //#header > div > div.bd2 > div.bd3 > div.bd3r > div.co_area2 > div.co_content8 > ul > table:nth-child(25) > tbody > tr:nth-child(2) > td:nth-child(2) > b > a
+            //#header > div > div.bd2 > div.bd3 > div.bd3r > div.co_area2 > div.co_content8 > ul > table:nth-child(2) > tbody > tr:nth-child(2) > td:nth-child(2) > b > a
+            for (int i = 1; i<=25; i++) {
+                String number = String.valueOf(i);
+                Elements elements = doc.select("#header")
+                        .select("div")
+                        .select("div.bd2")
+                        .select("div.bd3")
+                        .select("div.bd3r")
+                        .select("div.co_area2")
+                        .select("div.co_content8")
+                        .select("ul")
+                        .select("table:nth-child("+number+")")
+                        .select("tbody")
+                        .select("tr:nth-child(2)")
+                        .select("td:nth-child(2)")
+                        .select("b")
+                        .select("a");
+                String link = elements.attr("href");
+                String str = elements.toString();
+                String movieName = elements.text();
+                output = output + str + "\n";
+                boolean success = spiderDetail(baseurl+link,"src/detail.html",movieName);
+                if (success) {
+                    count++;
+                }
+            }
+            FileWriter fileWriter = new FileWriter("src/moviefile.html",true);
+            fileWriter.append(output);
+            fileWriter.flush();
+            fileWriter.close();
+            return count;
         }
-        FileWriter fileWriter = new FileWriter("src/moviefile.html",true);
-        fileWriter.append(output);
-        fileWriter.flush();
-        fileWriter.close();
-        return true;
+        return count;
     }
 
-    public void spiderDetail (String url, String file) throws IOException {
+    public boolean spiderDetail (String url, String file,String movieName) throws IOException {
         Post post = new Post();
         post.setReleasetime("2022-3-19 15:30:31");
         post.setType("官方资源");
@@ -248,7 +258,12 @@ public class PostController {
                     if (str2 != null) {
                         String[] split = str2.split(" ");
                         String title = split[1];
-                        post.setTitle(title);
+                        if (movieName != null && movieName != "")
+                        {
+                            post.setTitle(movieName);
+                        } else {
+                            post.setTitle(title);
+                        }
 //                        output = output + title + "\n";
                     }
                 }
@@ -262,10 +277,10 @@ public class PostController {
         if (post != null) {
             if (post.getTitle() != "" && post.getContent() != ""){
                 System.out.println(post.getTitle()+"\n"+post.getContent());
-                postService.save(post);
+                return postService.save(post);
             }
         }
-
+        return false;
 //        FileWriter fileWriter = new FileWriter(file,true);
 //        fileWriter.append(output);
 //        fileWriter.flush();
