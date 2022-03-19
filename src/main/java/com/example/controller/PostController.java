@@ -214,7 +214,7 @@ public class PostController {
             output = output + str + "\n";
             spiderDetail(baseurl+link,"src/detail.html");
         }
-        FileWriter fileWriter = new FileWriter("src/myfile.html",true);
+        FileWriter fileWriter = new FileWriter("src/moviefile.html",true);
         fileWriter.append(output);
         fileWriter.flush();
         fileWriter.close();

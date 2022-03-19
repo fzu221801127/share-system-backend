@@ -26,7 +26,7 @@ public class Spider {
 
     public static void main(String[] args) throws IOException {
         String baseurl = "https://www.ygdy8.net";
-        FileWriter fileWriter = new FileWriter("src/myfile.html",false);
+        FileWriter fileWriter = new FileWriter("src/moviefile.html",false);
         fileWriter.append("https://www.ygdy8.net/html/gndy/dyzz/list_23_?.html\n");
         fileWriter.flush();
         fileWriter.close();
@@ -68,7 +68,7 @@ public class Spider {
             output = output + str + "\n";
             spiderDetail(baseurl+link,"src/detail.html");
         }
-        FileWriter fileWriter = new FileWriter("src/myfile.html",true);
+        FileWriter fileWriter = new FileWriter("src/moviefile.html",true);
         fileWriter.append(output);
         fileWriter.flush();
         fileWriter.close();
