@@ -43,7 +43,9 @@ public class CollectionServiceImpl extends ServiceImpl<CollectionMapper, Collect
             Post post = new Post();
             for(Collection collection : collectionList){
                 post = postMapper.selectById(collection.getPostId());
-                postList.add(post);
+                if (post.getState().equals("未被举报")) {
+                    postList.add(post);
+                }
             }
             return postList;
         } else {
