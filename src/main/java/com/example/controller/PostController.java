@@ -156,7 +156,24 @@ public class PostController {
         QueryWrapper<Post> queryWrapper = new QueryWrapper<>();
         queryWrapper.and(
                 wrapper ->
-                        wrapper.like("title", post.getTitle())
+                        wrapper.like("title", post.getTitle()).eq("state","未被举报")
+        );
+        return  this.postService.list(queryWrapper);
+    }
+
+    /**
+     * 描述:通过标题模糊搜索下架文章
+     * 参数:文章标题
+     * 返回值:文章列表
+     * @author zhuangweilong
+     * @since 2022-03-04
+     */
+    @GetMapping("/takedown/title")
+    public List<Post> getTakedownPostListByName(Post post) {
+        QueryWrapper<Post> queryWrapper = new QueryWrapper<>();
+        queryWrapper.and(
+                wrapper ->
+                        wrapper.like("title", post.getTitle()).eq("state","暂时下架")
         );
         return  this.postService.list(queryWrapper);
     }
