@@ -2,6 +2,7 @@ package com.example.service.impl;
 
 import com.example.entity.FirstComment;
 import com.example.mapper.FirstCommentMapper;
+import com.example.mapper.PostMapper;
 import com.example.service.FirstCommentService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,8 @@ import java.util.Map;
 public class FirstCommentServiceImpl extends ServiceImpl<FirstCommentMapper, FirstComment> implements FirstCommentService {
     @Resource
     FirstCommentMapper firstCommentMapper;
+    @Resource
+    PostMapper postMapper;
 
     @Override
     public List<FirstComment> getFirstCommentByPostId(Integer postId) {
@@ -30,5 +33,18 @@ public class FirstCommentServiceImpl extends ServiceImpl<FirstCommentMapper, Fir
         columnMap.put("post_id",postId);
         List<FirstComment> firstComments = firstCommentMapper.selectByMap(columnMap);
         return firstComments;
+    }
+
+    @Override
+    public boolean insertFirstComment(FirstComment firstComment) {
+        if (postMapper.selectById(firstComment.getPostId()) == null) {
+            return false;
+        }
+        int count = 0;
+        count = firstCommentMapper.insert(firstComment);
+        if (count > 0) {
+            return true;
+        }
+        return false;
     }
 }

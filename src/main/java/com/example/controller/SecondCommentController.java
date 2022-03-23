@@ -1,15 +1,13 @@
 package com.example.controller;
 
 
+import com.example.entity.FirstComment;
 import com.example.entity.SecondComment;
 import com.example.service.SecondCommentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -26,6 +24,18 @@ import java.util.List;
 public class SecondCommentController {
     @Autowired
     SecondCommentService secondCommentService;
+
+    /**
+     * 描述:插入一条二级评论
+     * 参数:二级评论对象
+     * 返回值:插入成功为true,失败为false
+     * @author zhuangweilong
+     * @since
+     */
+    @PostMapping("")
+    public boolean insertSecondComment(@RequestBody SecondComment secondComment) {
+        return this.secondCommentService.insertSecondComment(secondComment);
+    }
 
     /**
      * 描述:通过一级评论id获取二级评论列表

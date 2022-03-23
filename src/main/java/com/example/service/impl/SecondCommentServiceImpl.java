@@ -1,6 +1,7 @@
 package com.example.service.impl;
 
 import com.example.entity.SecondComment;
+import com.example.mapper.FirstCommentMapper;
 import com.example.mapper.SecondCommentMapper;
 import com.example.service.SecondCommentService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -23,6 +24,8 @@ import java.util.Map;
 public class SecondCommentServiceImpl extends ServiceImpl<SecondCommentMapper, SecondComment> implements SecondCommentService {
     @Resource
     SecondCommentMapper secondCommentMapper;
+    @Resource
+    FirstCommentMapper firstCommentMapper;
 
     @Override
     public List<SecondComment> getSecondCommentByFistCommentId(Integer firstCommentId) {
@@ -30,5 +33,18 @@ public class SecondCommentServiceImpl extends ServiceImpl<SecondCommentMapper, S
         columnMap.put("first_comment_id",firstCommentId);
         List<SecondComment> secondComments = secondCommentMapper.selectByMap(columnMap);
         return secondComments;
+    }
+
+    @Override
+    public boolean insertSecondComment(SecondComment secondComment) {
+        if (firstCommentMapper.selectById(secondComment.getFirstCommentId()) == null) {
+            return false;
+        }
+        int count = 0;
+        count = secondCommentMapper.insert(secondComment);
+        if (count > 0) {
+            return true;
+        }
+        return false;
     }
 }

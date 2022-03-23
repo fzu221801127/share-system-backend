@@ -16,4 +16,6 @@ import java.util.List;
 public interface SecondCommentService extends IService<SecondComment> {
 
     List<SecondComment> getSecondCommentByFistCommentId(Integer firstCommentId);
+
+    boolean insertSecondComment(SecondComment secondComment);
 }

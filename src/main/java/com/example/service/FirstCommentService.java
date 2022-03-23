@@ -16,4 +16,6 @@ import java.util.List;
 public interface FirstCommentService extends IService<FirstComment> {
 
     List<FirstComment> getFirstCommentByPostId(Integer postId);
+
+    boolean insertFirstComment(FirstComment firstComment);
 }
