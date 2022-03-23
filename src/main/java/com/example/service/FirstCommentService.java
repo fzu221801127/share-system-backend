@@ -3,6 +3,8 @@ package com.example.service;
 import com.example.entity.FirstComment;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface FirstCommentService extends IService<FirstComment> {
 
+    List<FirstComment> getFirstCommentByPostId(Integer postId);
 }
