@@ -3,7 +3,9 @@ package com.example.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.entity.Post;
+import com.example.entity.Shearch;
 import com.example.service.PostService;
+import com.example.service.ShearchService;
 import com.example.utils.SpringUtil.SpringUtil;
 import com.example.utils.spider.HttpClientDownPage;
 import com.example.utils.spider.Spider;
@@ -19,6 +21,8 @@ import org.springframework.stereotype.Controller;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +41,8 @@ public class PostController {
 
     @Autowired
     private PostService postService;
+    @Autowired
+    private ShearchService shearchService;
 
     /**
      * 描述:插入新的文章
@@ -153,6 +159,12 @@ public class PostController {
      */
     @GetMapping("/title")
     public List<Post> getPostListByName(Post post) {
+        Date date = new Date(); // this object contains the current date value
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Shearch shearch = new Shearch();
+        shearch.setContent(post.getTitle());
+        shearch.setShearchTime(formatter.format(date));
+        shearchService.save(shearch);
         QueryWrapper<Post> queryWrapper = new QueryWrapper<>();
         queryWrapper.and(
                 wrapper ->
