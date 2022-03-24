@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * </p>
  * 运行前请注意修改resources文件夹下的application.yml文件中的数据库名子、账号、密码
  * @author zhuangweilong
- * @since 2021-08-19
+ * @since
  */
 @Configuration
 public class CrosConfiguration implements WebMvcConfigurer {
