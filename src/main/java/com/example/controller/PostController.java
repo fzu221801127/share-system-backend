@@ -239,7 +239,7 @@ public class PostController {
     }
 
     /**
-     * 描述:通过id搜索文章
+     * 描述:通过id获取文章
      * 参数:文章id
      * 返回值:文章
      * @author zhuangweilong
@@ -247,7 +247,12 @@ public class PostController {
      */
     @GetMapping("/id")
     public Post getPostById(Post post) {
-        return this.postService.getById(post.getId());
+        Post post1 =  postService.getById(post.getId());
+        if (post1 != null) {
+            post1.setClick(post1.getClick()+1);
+            postService.updateById(post1);
+        }
+        return post1;
     }
 
     @GetMapping("/spider")
