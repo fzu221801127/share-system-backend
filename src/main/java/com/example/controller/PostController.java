@@ -4,7 +4,9 @@ package com.example.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.entity.Post;
 import com.example.entity.Shearch;
+import com.example.entity.ShearchCount;
 import com.example.service.PostService;
+import com.example.service.ShearchCountService;
 import com.example.service.ShearchService;
 import com.example.utils.SpringUtil.SpringUtil;
 import com.example.utils.spider.HttpClientDownPage;
@@ -43,6 +45,8 @@ public class PostController {
     private PostService postService;
     @Autowired
     private ShearchService shearchService;
+    @Autowired
+    private ShearchCountService shearchCountService;
 
     /**
      * 描述:插入新的文章
@@ -159,17 +163,36 @@ public class PostController {
      */
     @GetMapping("/title")
     public List<Post> getPostListByName(Post post) {
-        Date date = new Date(); // this object contains the current date value
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Shearch shearch = new Shearch();
-        shearch.setContent(post.getTitle());
-        shearch.setShearchTime(formatter.format(date));
-        shearchService.save(shearch);
         QueryWrapper<Post> queryWrapper = new QueryWrapper<>();
         queryWrapper.and(
                 wrapper ->
                         wrapper.like("title", post.getTitle()).eq("state","未被举报")
         );
+        if (this.postService.list(queryWrapper).size() > 0) {
+            //保存到该搜索记录表
+            Date date = new Date(); // this object contains the current date value
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Shearch shearch = new Shearch();
+            shearch.setContent(post.getTitle());
+            shearch.setShearchTime(formatter.format(date));
+            shearchService.save(shearch);
+            //搜索内容次数统计表插入新搜索内容或更新该搜索内容的搜索次数
+            QueryWrapper<ShearchCount> qw= new QueryWrapper<>();
+            qw.and(
+                    wrapper ->
+                            wrapper.eq("content", post.getTitle())
+            );
+            if (shearchCountService.getOne(qw) != null) {
+                ShearchCount shearchCount = shearchCountService.getOne(qw);
+                shearchCount.setCount(shearchCount.getCount()+1);
+                shearchCountService.update(shearchCount,qw);
+            } else {
+                ShearchCount shearchCount = new ShearchCount();
+                shearchCount.setCount(1);
+                shearchCount.setContent(post.getTitle());
+                shearchCountService.save(shearchCount);
+            }
+        }
         return  this.postService.list(queryWrapper);
     }
 
