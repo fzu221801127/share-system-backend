@@ -27,7 +27,7 @@ public class ShearchCountServiceImpl extends ServiceImpl<ShearchCountMapper, She
     ShearchCountMapper shearchCountMapper;
 
     @Override
-    public List<ShearchCount> getTenHotShearchInThisMonth() {
+    public List<ShearchCount> getTenHotShearch() {
         int sum = 10;
         List<ShearchCount> shearchCounts = shearchCountMapper.getTenHotShearchInThisMonth();
         List<ShearchCount> shearchCounts1 = new ArrayList<>();

@@ -28,8 +28,8 @@ public class ShearchCountController {
     ShearchCountService shearchCountService;
 
     @GetMapping("")
-    public List<ShearchCount> getTenHotShearchInThisMonth () {
-        return shearchCountService.getTenHotShearchInThisMonth();
+    public List<ShearchCount> getTenHotShearch () {
+        return shearchCountService.getTenHotShearch();
     }
 }
 
