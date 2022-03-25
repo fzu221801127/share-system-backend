@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.entity.Post;
 import com.example.entity.Shearch;
 import com.example.entity.ShearchCount;
+import com.example.entity.ShearchCountMonth;
 import com.example.service.PostService;
+import com.example.service.ShearchCountMonthService;
 import com.example.service.ShearchCountService;
 import com.example.service.ShearchService;
 import com.example.utils.SpringUtil.SpringUtil;
@@ -47,6 +49,8 @@ public class PostController {
     private ShearchService shearchService;
     @Autowired
     private ShearchCountService shearchCountService;
+    @Autowired
+    private ShearchCountMonthService shearchCountMonthService;
 
     /**
      * 描述:插入新的文章
@@ -191,6 +195,27 @@ public class PostController {
                 shearchCount.setCount(1);
                 shearchCount.setContent(post.getTitle());
                 shearchCountService.save(shearchCount);
+            }
+            System.out.println("！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！");
+            //按月份的搜索内容次数统计表插入新搜索内容或更新该搜索内容的搜索次数
+            QueryWrapper<ShearchCountMonth> qw2= new QueryWrapper<>();
+            qw2.and(
+                    wrapper ->
+                            wrapper.eq("content", post.getTitle()).eq("month",formatter.format(date).substring(0,7))
+            );
+            System.out.println("00000000000000000000000000000000000000000000000000");
+            if (shearchCountMonthService.getOne(qw2) != null) {
+                System.out.println("1111111111111111111111111111111111111111111111111111");
+                ShearchCountMonth shearchCountMonth = shearchCountMonthService.getOne(qw2);
+                shearchCountMonth.setCount(shearchCountMonth.getCount()+1);
+                shearchCountMonthService.update(shearchCountMonth,qw2);
+            } else {
+                System.out.println("22222222222222222222222222222222222222222");
+                ShearchCountMonth shearchCountMonth = new ShearchCountMonth();
+                shearchCountMonth.setCount(1);
+                shearchCountMonth.setContent(post.getTitle());
+                shearchCountMonth.setMonth(formatter.format(date).substring(0,7));
+                shearchCountMonthService.save(shearchCountMonth);
             }
         }
         return  this.postService.list(queryWrapper);
