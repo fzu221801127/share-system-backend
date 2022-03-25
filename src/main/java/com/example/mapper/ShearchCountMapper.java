@@ -16,5 +16,5 @@ import java.util.List;
  */
 public interface ShearchCountMapper extends BaseMapper<ShearchCount> {
     @Select("SELECT * FROM shearch_count order by count desc")
-    List<ShearchCount> getTenHotShearchInThisMonth();
+    List<ShearchCount> getHotShearch();
 }

@@ -29,7 +29,7 @@ public class ShearchCountServiceImpl extends ServiceImpl<ShearchCountMapper, She
     @Override
     public List<ShearchCount> getTenHotShearch() {
         int sum = 10;
-        List<ShearchCount> shearchCounts = shearchCountMapper.getTenHotShearchInThisMonth();
+        List<ShearchCount> shearchCounts = shearchCountMapper.getHotShearch();
         List<ShearchCount> shearchCounts1 = new ArrayList<>();
         if (shearchCounts.size() > 0) {
             if (shearchCounts.size() > sum) {

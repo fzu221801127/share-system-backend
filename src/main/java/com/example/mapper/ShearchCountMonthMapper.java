@@ -2,6 +2,9 @@ package com.example.mapper;
 
 import com.example.entity.ShearchCountMonth;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface ShearchCountMonthMapper extends BaseMapper<ShearchCountMonth> {
 
+    @Select("SELECT * FROM shearch_count_month where month like CONCAT('%',#{month},'%') order by count desc")
+    List<ShearchCountMonth> getHotShearchInThisMonth(String month);
 }
