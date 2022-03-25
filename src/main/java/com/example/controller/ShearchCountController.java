@@ -1,9 +1,16 @@
 package com.example.controller;
 
 
+import com.example.entity.ShearchCount;
+import com.example.service.ShearchCountService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,9 +20,16 @@ import org.springframework.stereotype.Controller;
  * @author zhuangweilong
  * @since 2022-03-25
  */
-@Controller
-@RequestMapping("//shearchCount")
+@RestController
+@RequestMapping("/v1/shearchCount")
 public class ShearchCountController {
 
+    @Autowired
+    ShearchCountService shearchCountService;
+
+    @GetMapping("")
+    public List<ShearchCount> getTenHotShearchInThisMonth () {
+        return shearchCountService.getTenHotShearchInThisMonth();
+    }
 }
 

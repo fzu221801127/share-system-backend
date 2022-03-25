@@ -14,7 +14,7 @@ import org.springframework.stereotype.Controller;
  * @since 2022-03-25
  */
 @Controller
-@RequestMapping("//shearchCountMonth")
+@RequestMapping("/v1/shearchCountMonth")
 public class ShearchCountMonthController {
 
 }
