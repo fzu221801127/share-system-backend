@@ -338,6 +338,8 @@ public class PostController {
             //#header > div > div.bd2 > div.bd3 > div.bd3r > div.co_area2 > div.co_content8 > ul > table:nth-child(2) > tbody > tr:nth-child(2) > td:nth-child(2) > b > a
             //#header > div > div.bd2 > div.bd3 > div.bd3r > div.co_area2 > div.co_content8 > ul > table:nth-child(25) > tbody > tr:nth-child(2) > td:nth-child(2) > b > a
             //#header > div > div.bd2 > div.bd3 > div.bd3r > div.co_area2 > div.co_content8 > ul > table:nth-child(2) > tbody > tr:nth-child(2) > td:nth-child(2) > b > a
+            //#header > div > div.bd2 > div.bd3 > div.bd3r > div.co_area2 > div.co_content8 > ul > table:nth-child(1) > tbody > tr:nth-child(2) > td:nth-child(2) > b > a:nth-child(2)
+            //#header > div > div.bd2 > div.bd3 > div.bd3r > div.co_area2 > div.co_content8 > ul > table:nth-child(2) > tbody > tr:nth-child(2) > td:nth-child(2) > b > a:nth-child(2)
             for (int i = 1; i<=25; i++) {
                 String number = String.valueOf(i);
                 Elements elements = doc.select("#header")
@@ -353,7 +355,7 @@ public class PostController {
                         .select("tr:nth-child(2)")
                         .select("td:nth-child(2)")
                         .select("b")
-                        .select("a");
+                        .select("a:nth-child(2)");
                 String link = elements.attr("href");
                 String str = elements.toString();
                 String movieName = elements.text();
@@ -429,8 +431,11 @@ public class PostController {
     }
 
     public boolean spiderDetail2 (String url, String file,String movieName) throws IOException {
+        System.out.println("url:"+url);
         Post post = new Post();
-        post.setReleasetime("2022-03-20 15:30:31");
+        Date date = new Date(); // this object contains the current date value
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        post.setReleasetime(formatter.format(date));
         post.setType("官方资源");
         post.setClick(0);
         post.setUserId("admin");
@@ -449,30 +454,20 @@ public class PostController {
             Elements elements1 = doc.select("#Zoom")
                     .select("span");
             if (elements1 != null) {
-                Elements elements2 = elements1.select("a");
-                if (elements2 != null) {
-                    String str2 = elements2.text();
-                    if (str2 != null) {
-                        String title = str2;
-                        System.out.println("$$$$$$$$$$$$$$$$$$$"+title+"%%%%%%%%%%%%");
-                        if (movieName != null && movieName != "")
-                        {
-                            post.setTitle(movieName);
-                        } else {
-                            post.setTitle(title);
-                        }
-//                        output = output + title + "\n";
-                    }
+                if (movieName != null && movieName != "")
+                {
+                    post.setTitle(movieName);
                 }
+//              output = output + title + "\n";
                 String str1 = elements1.toString();
                 if (str1 != null) {
                     post.setContent(str1);
-//                    output = output + str1 + "\n";
+//                  output = output + str1 + "\n";
                 }
             }
         }
         if (post != null) {
-            if (post.getTitle() != "" && post.getContent() != ""){
+            if (!post.getTitle().equals("") && !post.getContent().equals("")){
                 System.out.println(post.getTitle()+"\n"+post.getContent());
                 return postService.save(post);
             }
