@@ -27,11 +27,25 @@ public class ShearchCountController {
     @Autowired
     ShearchCountService shearchCountService;
 
+    /**
+     * 描述:获取热搜前十
+     * 参数:
+     * 返回值:
+     * @author zhuangweilong
+     * @since 2022/3/27 19:14
+     */
     @GetMapping("")
     public List<ShearchCount> getTenHotShearch () {
         return shearchCountService.getTenHotShearch();
     }
 
+    /**
+     * 描述:获取历史总搜索次数
+     * 参数:
+     * 返回值:
+     * @author zhuangweilong
+     * @since 2022/3/27 19:14
+     */
     @GetMapping("/count")
     public Integer getShearchCount () {
         return shearchCountService.getShearchCount();

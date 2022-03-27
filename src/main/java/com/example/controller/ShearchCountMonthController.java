@@ -27,11 +27,25 @@ public class ShearchCountMonthController {
     @Autowired
     ShearchCountMonthService shearchCountMonthService;
 
+    /**
+     * 描述:获取本月热搜前10
+     * 参数:
+     * 返回值:
+     * @author zhuangweilong
+     * @since 2022/3/27 19:13
+     */
     @GetMapping("/thisMonth")
     public List<ShearchCountMonth> getTenHotShearchInThisMonth () {
         return  shearchCountMonthService.getTenHotShearchInThisMonth();
     }
 
+    /**
+     * 描述:获取本月总搜索次数
+     * 参数:
+     * 返回值:
+     * @author zhuangweilong
+     * @since 2022/3/27 19:14
+     */
     @GetMapping("/thisMonth/count")
     public Integer getShearchCountInThisMonth () {
         return shearchCountMonthService.getShearchCountInThisMonth();
