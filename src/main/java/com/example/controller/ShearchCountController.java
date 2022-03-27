@@ -31,5 +31,10 @@ public class ShearchCountController {
     public List<ShearchCount> getTenHotShearch () {
         return shearchCountService.getTenHotShearch();
     }
+
+    @GetMapping("/count")
+    public Integer getShearchCount () {
+        return shearchCountService.getShearchCount();
+    }
 }
 

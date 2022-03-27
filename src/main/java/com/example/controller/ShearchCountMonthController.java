@@ -32,5 +32,10 @@ public class ShearchCountMonthController {
         return  shearchCountMonthService.getTenHotShearchInThisMonth();
     }
 
+    @GetMapping("/thisMonth/count")
+    public Integer getShearchCountInThisMonth () {
+        return shearchCountMonthService.getShearchCountInThisMonth();
+    }
+
 }
 

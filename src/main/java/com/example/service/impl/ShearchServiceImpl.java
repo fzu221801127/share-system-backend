@@ -26,13 +26,4 @@ public class ShearchServiceImpl extends ServiceImpl<ShearchMapper, Shearch> impl
     @Resource
     ShearchMapper shearchMapper;
 
-    @Override
-    public Integer getShearchCountInThisMonth() {
-        Date date = new Date(); // this object contains the current date value
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String month = formatter.format(date).substring(0,7);
-        QueryWrapper<Shearch> queryWrapper = new QueryWrapper<>();
-        queryWrapper.like("shearch_time",month);
-        return shearchMapper.selectCount(queryWrapper);
-    }
 }

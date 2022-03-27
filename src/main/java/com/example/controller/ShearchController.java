@@ -24,15 +24,5 @@ public class ShearchController {
     @Autowired
     ShearchService shearchService;
 
-    @GetMapping("/count")
-    public Integer getShearchCount () {
-        return shearchService.count();
-    }
-
-    @GetMapping("/month/count")
-    public Integer getShearchCountInThisMonth () {
-        return shearchService.getShearchCountInThisMonth();
-    }
-
 }
 

@@ -16,4 +16,6 @@ import java.util.List;
 public interface ShearchCountService extends IService<ShearchCount> {
 
     List<ShearchCount> getTenHotShearch();
+
+    Integer getShearchCount();
 }

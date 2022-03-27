@@ -18,4 +18,7 @@ public interface ShearchCountMonthMapper extends BaseMapper<ShearchCountMonth> {
 
     @Select("SELECT * FROM shearch_count_month where month like CONCAT('%',#{month},'%') order by count desc")
     List<ShearchCountMonth> getHotShearchInThisMonth(String month);
+
+    @Select("SELECT sum(count) FROM shearch_count_month where month like CONCAT('%',#{month},'%')")
+    Integer getShearchCountInThisMonth(String month);
 }

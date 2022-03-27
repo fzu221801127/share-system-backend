@@ -44,4 +44,9 @@ public class ShearchCountServiceImpl extends ServiceImpl<ShearchCountMapper, She
         }
         return shearchCounts1;
     }
+
+    @Override
+    public Integer getShearchCount() {
+        return shearchCountMapper.getShearchCount();
+    }
 }

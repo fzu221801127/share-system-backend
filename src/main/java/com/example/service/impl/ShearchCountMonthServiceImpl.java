@@ -49,4 +49,12 @@ public class ShearchCountMonthServiceImpl extends ServiceImpl<ShearchCountMonthM
         }
         return shearchCountMonths1;
     }
+
+    @Override
+    public Integer getShearchCountInThisMonth() {
+        Date date = new Date(); // this object contains the current date value
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String month = formatter.format(date).substring(0,7);
+        return shearchCountMonthMapper.getShearchCountInThisMonth(month);
+    }
 }
