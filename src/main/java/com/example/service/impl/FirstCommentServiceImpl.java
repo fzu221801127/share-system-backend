@@ -5,9 +5,11 @@ import com.example.mapper.FirstCommentMapper;
 import com.example.mapper.PostMapper;
 import com.example.service.FirstCommentService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.utils.sensitiveWordUtil.SensitiveWord;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +43,13 @@ public class FirstCommentServiceImpl extends ServiceImpl<FirstCommentMapper, Fir
             return false;
         }
         int count = 0;
+        SensitiveWord sensitiveWord = new SensitiveWord();
+        try {
+            sensitiveWord.addWordByFile("src/sensitiveWord.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        firstComment.setContent(sensitiveWord.filter(firstComment.getContent()));
         count = firstCommentMapper.insert(firstComment);
         if (count > 0) {
             return true;
