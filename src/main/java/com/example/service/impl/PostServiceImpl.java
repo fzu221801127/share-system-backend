@@ -1,5 +1,6 @@
 package com.example.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.entity.Post;
 import com.example.mapper.PostMapper;
 import com.example.service.PostService;
@@ -7,6 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -28,4 +30,10 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         boolean success = count != 0;
         return success;
     }
+
+    @Override
+    public List<Post> getTopTenClickPost() {
+        return postMapper.getTopTenClickPost();
+    }
+
 }

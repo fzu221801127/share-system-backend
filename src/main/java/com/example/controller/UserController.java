@@ -30,7 +30,19 @@ public class UserController {
     private UserService userService;
 
     /**
-     * 描述:普通登录
+     * 描述:普通用户注册
+     * 参数: User
+     * 返回值:
+     * @author zhuangweilong
+     * @since
+     */
+    @PostMapping("userRegister")
+    public UserQuery userRegister (@RequestBody User user) {
+        return  this.userService.userRegister(user);
+    }
+
+    /**
+     * 描述:普通用户登录
      * 参数:User
      * 返回值:用户对象
      * @author zhuangweilong

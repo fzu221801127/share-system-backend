@@ -19,4 +19,6 @@ public interface UserService extends IService<User> {
     UserQuery adminLogin(User user);
 
     UserQuery getUserInfoById(User user);
+
+    UserQuery userRegister(User user);
 }

@@ -255,6 +255,18 @@ public class PostController {
         return post1;
     }
 
+    /**
+     * 描述:获取点击量前十文章
+     * 参数:
+     * 返回值:文章列表
+     * @author zhuangweilong
+     * @since 2022-03-04
+     */
+    @GetMapping("/topTenClick")
+    public List<Post> getTopTenClickPost(Post post) {
+        return  this.postService.getTopTenClickPost();
+    }
+
     @GetMapping("/spider")
     public String spider (Integer type,Integer firstPage,Integer lastPage) throws IOException {
         Integer count = 0;

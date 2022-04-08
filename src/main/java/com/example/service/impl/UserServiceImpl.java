@@ -136,4 +136,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         userQuery.setPermission(userMessage.getPermission());
         return userQuery;
     }
+
+    @Override
+    public UserQuery userRegister(User user) {
+        return null;
+    }
 }

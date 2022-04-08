@@ -3,6 +3,8 @@ package com.example.service;
 import com.example.entity.Post;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -15,4 +17,5 @@ public interface PostService extends IService<Post> {
 
     boolean tipOffPost (Post post);
 
+    List<Post> getTopTenClickPost();
 }
