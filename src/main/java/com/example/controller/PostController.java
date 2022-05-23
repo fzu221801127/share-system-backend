@@ -388,7 +388,10 @@ public class PostController {
 
     public boolean spiderDetail (String url, String file,String movieName) throws IOException {
         Post post = new Post();
-        post.setReleasetime("2022-03-20 15:30:31");
+        Date date = new Date(); // this object contains the current date value
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String relTime = formatter.format(date);
+        post.setReleasetime(relTime);
         post.setType("官方资源");
         post.setClick(0);
         post.setUserId("admin");
